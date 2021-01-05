@@ -1,34 +1,29 @@
-## BRP usando HC con MM
+BRP usando HC con MM
 04/01/2021
 
-Autor:
-        Juan Aguilera Castillo
+Autor: Juan Aguilera Castillo
 
-### Preliminares
+Preliminares:
 
 Este proyecto se elaboro en un entorno UNIX mediante WSL2 en el editor VS Code.
 
-Se subió este trabajo a github:
+Se subió este trabajo a github: https://github.com/Juanx65/BRP-HC-MM
 
-```
-https://github.com/Juanx65/BRP-HC-MM
-```
 
-### Instrucciones de ejecución
+Instrucciones de ejecución:
 
 Para compilar el programa simplemente utlice el siguiente comando en el bash
 
-```
-make
-```
-Para ejecutar el programa debe ejecutar en bash
-```
-time ./main config_H_W.txt
-```
+  make
+
+Para ejecutar el programa debe ejecutar en bash:
+
+  time ./main config_H_W.txt
+
 Donde _H_ y _W_ representan las W columnas y H  tiers de el archivo de prueba a utilizar, como se aprecia en este ejemplo usando el archivo _config_3_3.txt_
-```
-time ./main config_3_3.txt
-```
+
+  time ./main config_3_3.txt
+
 
 Para interpretar el resultado obtendio mediante este programa, la solución entregada viene dada por un vector de vectores que se imprimira en el bash de la siguiente forma:
 
