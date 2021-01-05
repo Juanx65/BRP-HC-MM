@@ -17,14 +17,14 @@ make
 ```
 Para ejecutar el programa debe ejecutar en bash
 ```
-time ./main conig_H_W.txt
+time ./main config_H_W.txt
 ```
-donde _H_ e _W_ representan las W columnas y H  tiers de el archivo de prueba a utilizar, como en este ejemplo usando el archivo _config_3_3_.txt
+donde _H_ y _W_ representan las W columnas y H  tiers de el archivo de prueba a utilizar, como se aprecia en este ejemplo usando el archivo _config_3_3.txt_
 ```
-time ./main conig_3_3.txt
+time ./main config_3_3.txt
 ```
 
-Para interpretar el resultado obtendio mediante este programa, la solución entregada viene dada por un vector de vectores que se imprimira en pantalla de la siguiente forma:
+Para interpretar el resultado obtendio mediante este programa, la solución entregada viene dada por un vector de vectores que se imprimira en el bash de la siguiente forma:
 
         [
           [n i j k l]
