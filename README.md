@@ -1,10 +1,8 @@
-## Block Realocation Problem usando HH con MM
+## BRP usando HC con MM
 04/01/2021
 
 Autor:
         Juan Aguilera Castillo
-
-
 
 ### Preliminares
 
