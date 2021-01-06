@@ -136,15 +136,19 @@ int main(int argc, char* argv[])
 	MMsol = sol_in;
 
 	int explorador = 0;
+	int atrapado = 0;
+	int parada = 0;
 
-	int ITERACIONES = 500;
-	int EXPLOTACIONES = 50;
+	int ITERACIONES = 1000;     // x: numero de iteraciones que del algoritmo
+	int EXPLOTACIONES = 100;	   // y: cantidad maxima de explotaciones de una solucion
+	int CRITERIO = 10;		   // z: cantidad de veces q puede repetirse la cantidad de movimientos con la MM actual antes de detener el loop
+	int LOCAL = 5;			   // w: cantidad de vezes q puede repetirse una solucion antes de forzar la exploracion
 
 	/* Loop donde generamos realizamos 'ITERACIONES' iteraciones, en las cuales se generaran 'EXPLOTACIONES' soluciones explotando cada solucion
 	   random inicial, por lo tanto se generaran 'ITERACIONES'/'EXPLOTACIONES' exploraciones en total */
 	for(int iterator = 0 ; iterator < ITERACIONES ; iterator++) 
 	{	
-		if(explorador == EXPLOTACIONES)
+		if(explorador >= EXPLOTACIONES)
 		{	
 			sol = full_random_gen(col,tier,maxValueOnFile,bahia, 0 ); // Se genera una nueva solucion random para explorar.
 			//std::cout << "Random sol mov = " << sol.size() << std::endl;
@@ -154,12 +158,30 @@ int main(int argc, char* argv[])
 	
 		solOp = MovShiftCol(col,tier,sol,bahia); /* se busca la solucion con MM dada una solucion inicial y se sigue iterando 
 													su mejor mejora durante'EXPLOTACIONES' veces.*/
-		if(solOp.size() < sol.size())
+		
+		if(solOp.size() < sol.size()) // cambiamos la solucion optima por la nueva solucion encontrada
 			sol = solOp;
-		if(sol.size() < MMsol.size())
+		else if(sol.size() == solOp.size() )
+			atrapado++;
+		else
+			atrapado = 0;
+		
+		if(sol.size() == MMsol.size())
+			parada++;
+		else
+			parada = 0;
+		
+		if(parada >= CRITERIO)// criterio de parada
+			break;
+		else if(atrapado >= LOCAL) // si estamos atrapados en un local, obligamos al algoritmo a explorar
+		{
+			explorador += EXPLOTACIONES;
+			atrapado = 0;
+		}
+
+		if(sol.size() < MMsol.size()) // vamos guardando la mejor solucion para la entrega final luego de todas las exploraciones
 			MMsol = sol;
-		//sol = MMsol;
-		//std::cout << "Iteracion: "<< iterator << " MM = " << sol.size() << std::endl;
+		//std::cout << "Iteracion: "<< iterator << " sol.size = " << sol.size()<<" MMsol.size = "<< MMsol.size() << std::endl;
 	}
 
 	std::cout << "Solución encontrada con HC MM: " << std::endl;
@@ -307,7 +329,7 @@ std::vector<std::vector<int>> MovShiftCol(int col,int tier ,std::vector<std::vec
 	int col_retiro=0;
 	std::vector<int> col_candidata;
 
-	for(int i = 0; i < sol.size(); i++) // antes movNin
+	for(int i = 0; i < sol.size(); i++) 
 	{
 		if( sol[i][3] != -1 ) // si se trata de una relocalizacion , cambiamos la columna de destio, si es factible 
 		{
@@ -375,7 +397,7 @@ void MMShiftCol(int numMov,int tier,int col, std::vector<int> colV, std::vector<
 }
 
 /*
-	busca y arregla las soluciones posibles para generar la MM, Es usada dentro de MMShiftCol
+	busca y arregla las soluciones posibles para generar la MM, Es usada dentro de MMShiftCol cada vez q se hace un shift de columna
 */
 void MMgenerator(std::vector<int>::iterator ptr, std::vector<std::vector<int>> bahia,std::vector<std::vector<int>>& sol,int numMov, int tier, int col )
 {
@@ -445,7 +467,7 @@ void addRandSol (int mov, int col,int tier, int ccol, int ctier,std::vector<std:
 }
 
 /*
-	genera un movimiento de columna factible la fun gen_random_sol
+	genera un movimiento de columna factible para la funcion gen_random_sol
 */
 int getRandomFac(int col, int ccol, std::vector<std::vector<int>> bahia)
 {
