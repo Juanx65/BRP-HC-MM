@@ -139,10 +139,10 @@ int main(int argc, char* argv[])
 	int atrapado = 0;
 	int parada = 0;
 
-	int ITERACIONES = 1000;     // x: numero de iteraciones que del algoritmo
+	int ITERACIONES = 1000;     // x: numero de iteraciones del algoritmo
 	int EXPLOTACIONES = 100;	   // y: cantidad maxima de explotaciones de una solucion
 	int CRITERIO = 10;		   // z: cantidad de veces q puede repetirse la cantidad de movimientos con la MM actual antes de detener el loop
-	int LOCAL = 5;			   // w: cantidad de vezes q puede repetirse una solucion antes de forzar la exploracion
+	int LOCAL = 5;			   // w: cantidad de veces q puede repetirse una solucion antes de forzar la exploracion
 
 	/* Loop donde generamos realizamos 'ITERACIONES' iteraciones, en las cuales se generaran 'EXPLOTACIONES' soluciones explotando cada solucion
 	   random inicial, por lo tanto se generaran 'ITERACIONES'/'EXPLOTACIONES' exploraciones en total */
@@ -214,6 +214,7 @@ void gen_random_sol(int col,int tier, int max, std::vector< std::vector<int>>& r
 	//printNestedList(bahia);
 	for (i ; i <= max; i++)
 	{	
+		//std::cout << "i : " << i << std::endl;
 		for (int ccol = 0; ccol < col; ccol++)
 		{	
 			for (int ctier = 0; ctier < tier; ctier++)
@@ -435,7 +436,7 @@ void MMgenerator(std::vector<int>::iterator ptr, std::vector<std::vector<int>> b
 
 		movN = sol.size();
 		// agrregamos nuevas soluciones completamente alazar a partir del cambio XD
-		gen_random_sol(col,tier,max,sol,bahia,movN,mov_freez + 1);
+		gen_random_sol(col,tier,max,sol,bahia,movN,mov_freez); // se booro mov_freez+1
 		
 		//printNestedList(sol);
 		//std::cout << " numero de movimeintos= " << movN << std::endl;
