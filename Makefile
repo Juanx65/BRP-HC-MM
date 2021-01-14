@@ -1,14 +1,16 @@
 CONFIG = c++11
 
-CC = "g++"
+CC = g++
+
+CPPFLAGS = -g
 
 PROJECT = main
 
 SRC = main.cpp
 
-INCLUDEPATH = #/usr/local/include/opencv4
+INCLUDEPATH = 
 
-LIBS = #`pkg-config opencv4 --cflags --libs`
+LIBS = 
 
 HEADERS =
 
@@ -16,3 +18,6 @@ FORMS =
 
 ${PROJECT} : ${SRC}
 	${CC} ${SRC} -o ${PROJECT} ${LIBS}
+
+clean:
+	rm -f *.o main

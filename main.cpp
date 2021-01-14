@@ -118,7 +118,7 @@ int main(int argc, char* argv[])
 //-------------------------------- Funcion principal --------------------------------------------------------//
 	
 	int movN = 0; // para mantener la cantidad de movimientos ( no es realmente necesario necesario ).
-	std::vector<std::vector<int>> sol_in,solOp,sol, MMsol; // vectores para manejar la solucion inicial, de la optima y la de MM.
+	std::vector<std::vector<int>> sol_in,solOp,sol, MMsol, exMMsol; // vectores para manejar la solucion inicial, de la optima y la de MM.
 	// generacion de solucion inicial factible de manera aleatoria 
 	//gen_random_sol(col,tier,maxValueOnFile,sol_in,bahia,movN,1);
 
@@ -134,6 +134,7 @@ int main(int argc, char* argv[])
 	sol = sol_in;
 	solOp = sol_in;
 	MMsol = sol_in;
+	exMMsol = sol_in;
 
 	int explorador = 0;
 	int atrapado = 0;
@@ -141,7 +142,7 @@ int main(int argc, char* argv[])
 
 	int ITERACIONES = 1000;     // x: numero de iteraciones del algoritmo
 	int EXPLOTACIONES = 100;	   // y: cantidad maxima de explotaciones de una solucion
-	int CRITERIO = 10;		   // z: cantidad de veces q puede repetirse la cantidad de movimientos con la MM actual antes de detener el loop
+	int CRITERIO = 20;		   // z: cantidad de veces q puede repetirse la cantidad de movimientos con la MM actual antes de detener el loop
 	int LOCAL = 5;			   // w: cantidad de veces q puede repetirse una solucion antes de forzar la exploracion
 
 	/* Loop donde generamos realizamos 'ITERACIONES' iteraciones, en las cuales se generaran 'EXPLOTACIONES' soluciones explotando cada solucion
@@ -158,7 +159,6 @@ int main(int argc, char* argv[])
 	
 		solOp = MovShiftCol(col,tier,sol,bahia); /* se busca la solucion con MM dada una solucion inicial y se sigue iterando 
 													su mejor mejora durante'EXPLOTACIONES' veces.*/
-		
 		if(solOp.size() < sol.size()) // cambiamos la solucion optima por la nueva solucion encontrada
 			sol = solOp;
 		else if(sol.size() == solOp.size() )
@@ -166,22 +166,25 @@ int main(int argc, char* argv[])
 		else
 			atrapado = 0;
 		
-		if(sol.size() == MMsol.size())
-			parada++;
-		else
-			parada = 0;
-		
 		if(parada >= CRITERIO)// criterio de parada
 			break;
 		else if(atrapado >= LOCAL) // si estamos atrapados en un local, obligamos al algoritmo a explorar
 		{
 			explorador += EXPLOTACIONES;
 			atrapado = 0;
-		}
+		}	
 
 		if(sol.size() < MMsol.size()) // vamos guardando la mejor solucion para la entrega final luego de todas las exploraciones
 			MMsol = sol;
-		//std::cout << "Iteracion: "<< iterator << " sol.size = " << sol.size()<<" MMsol.size = "<< MMsol.size() << std::endl;
+		//std::cout << "PArada= "<<parada<<" Iteracion: "<< iterator << " sol.size = " << sol.size()<<" MMsol.size = "<< MMsol.size() << " exMMsol.size = "<< exMMsol.size()<< std::endl;
+		if(exMMsol.size() == MMsol.size() && explorador >= EXPLOTACIONES)
+			parada++;
+		else if(exMMsol.size() != MMsol.size() && explorador >= EXPLOTACIONES)
+			parada=0;
+		
+		exMMsol = MMsol;
+
+
 	}
 
 	std::cout << "Solución encontrada con HC MM: " << std::endl;
